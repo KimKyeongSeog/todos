@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .container {
+    @apply max-w-screen-md mx-auto min-h-screen;
+  }
+
+  .btn-style {
+    @apply border-2 border-black px-1 py-[2px] rounded-md;
+  }
+
+  .input-style {
+    @apply focus:outline-none p-1 border-2 border-gray-300 focus:border-black rounded-md;
+  }
+}
