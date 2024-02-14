@@ -16,59 +16,59 @@ export const PUT = async (
     if (!token || !content || isNaN(+id)) {
       return NextResponse.json(
         {
-          message: "Not exist data.",
+          message: "Not exist token."
         },
         {
-          status: 400,
+          status: 400
         }
       );
     }
 
     const verifiedToken = <jwt.UserJwtPayload>(
-      jwt.verify(token.substring(7), process.env.JWT_SECRET!)
-    );
+      jwt.verify(token.substring(7), process.env.JWT_SECRET!) //substring 7번부터 시작, end값 입력 x
+    ); //
 
     const user = await client.user.findUnique({
       where: {
-        account: verifiedToken.account,
-      },
+        account: verifiedToken.account
+      }
     });
 
     if (!user) {
       return NextResponse.json(
         {
-          message: "Not exist user.",
+          message: "Not exist user."
         },
         {
-          status: 400,
+          status: 400
         }
       );
     }
 
     const existTodo = await client.todo.findUnique({
       where: {
-        id: +id,
-      },
+        id: +id
+      }
     });
 
     if (user.id !== existTodo?.userId) {
       return NextResponse.json(
         {
-          message: "Can not access.",
+          message: "Can not access."
         },
         {
-          status: 400,
+          status: 400
         }
       );
     }
 
     const updatedTodo = await client.todo.update({
       where: {
-        id: +id,
+        id: +id
       },
       data: {
-        content,
-      },
+        content
+      }
     });
 
     return NextResponse.json(updatedTodo);
@@ -77,10 +77,10 @@ export const PUT = async (
 
     return NextResponse.json(
       {
-        message: "Server Error.",
+        message: "Server Error."
       },
       {
-        status: 500,
+        status: 500
       }
     );
   }
@@ -97,10 +97,10 @@ export const DELETE = async (
     if (!token || isNaN(+id)) {
       return NextResponse.json(
         {
-          message: "Not exist data.",
+          message: "Not exist data."
         },
         {
-          status: 400,
+          status: 400
         }
       );
     }
@@ -111,42 +111,42 @@ export const DELETE = async (
 
     const user = await client.user.findUnique({
       where: {
-        account: verifiedToken.account,
-      },
+        account: verifiedToken.account
+      }
     });
 
     if (!user) {
       return NextResponse.json(
         {
-          message: "Not exist user.",
+          message: "Not exist user."
         },
         {
-          status: 400,
+          status: 400
         }
       );
     }
 
     const existTodo = await client.todo.findUnique({
       where: {
-        id: +id,
-      },
+        id: +id
+      }
     });
 
     if (user.id !== existTodo?.userId) {
       return NextResponse.json(
         {
-          message: "Can not access.",
+          message: "Can not access."
         },
         {
-          status: 400,
+          status: 400
         }
       );
     }
 
     const deletedTodo = await client.todo.delete({
       where: {
-        id: +id,
-      },
+        id: +id
+      }
     });
 
     return NextResponse.json(deletedTodo);
@@ -155,10 +155,10 @@ export const DELETE = async (
 
     return NextResponse.json(
       {
-        message: "Server Error.",
+        message: "Server Error."
       },
       {
-        status: 500,
+        status: 500
       }
     );
   }

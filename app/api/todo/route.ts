@@ -6,16 +6,11 @@ const client = new PrismaClient();
 
 export const GET = async (request: NextRequest) => {
   try {
-    //토큰 확인 (검증)
-    // => 사용자로부터 토큰을 받아온다. 헤더 Bearer
-    // => 그 토큰이 유효한지 검증한다.
-
     // 투두를 생성
     //응답
 
     const token = request.headers.get("authorization");
-
-    console.log(token);
+    const { content } = await request.json();
 
     if (!token) {
       return NextResponse.json(
@@ -30,9 +25,10 @@ export const GET = async (request: NextRequest) => {
 
     const verifiedToken = <jwt.UserJwtPayload>(
       jwt.verify(token.substring(7), process.env.JWT_SECRET!)
-    );
+    ); //as <jwt.UserJwtPayload>
 
     const user = await client.user.findUnique({
+      //user의 account는 unique 한 값이기 때문에 findUnique 사용
       where: {
         account: verifiedToken.account
       }
@@ -48,17 +44,14 @@ export const GET = async (request: NextRequest) => {
         }
       );
     }
-
-    const todos = await client.todo.findMany({
-      where: {
+    const todo = await client.todo.create({
+      data: {
+        content,
         userId: user.id
-      },
-      orderBy: {
-        createdAt: "desc"
       }
     });
 
-    return NextResponse.json(todos);
+    return NextResponse.json(todo);
   } catch (error) {
     console.error(error);
 

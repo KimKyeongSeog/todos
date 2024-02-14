@@ -18,8 +18,8 @@ const Home: NextPage = () => {
         `${process.env.NEXT_PUBLIC_URL}/api/todo`,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         }
       );
 

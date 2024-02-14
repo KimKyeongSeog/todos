@@ -21,12 +21,12 @@ const CreateTodo: FC<CreateTodoProps> = ({ todos, setTodos }) => {
       const response = await axios.post<Todo>(
         `${process.env.NEXT_PUBLIC_URL}/api/todo`,
         {
-          newTodo,
+          newTodo
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}`
+          }
         }
       );
 
@@ -40,15 +40,17 @@ const CreateTodo: FC<CreateTodoProps> = ({ todos, setTodos }) => {
   };
 
   return (
-    <form onSubmit={onCreateTodo}>
-      <input
-        className="input-style"
-        type="text"
-        value={newTodo}
-        onChange={(e) => setNewTodo(e.target.value)}
-      />
-      <input className="btn-style ml-2" type="submit" value="Create" />
-    </form>
+    <div>
+      <form onSubmit={onCreateTodo}>
+        <input
+          className="input-style"
+          type="text"
+          value={newTodo}
+          onChange={(e) => setNewTodo(e.target.value)}
+        />
+        <input className="btn-style ml-2" type="submit" value="Create" />
+      </form>
+    </div>
   );
 };
 
